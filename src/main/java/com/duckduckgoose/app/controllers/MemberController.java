@@ -41,6 +41,9 @@ public class MemberController {
             @RequestParam (value = "page", required = false) Integer page
     ) {
         Member member = memberService.getMemberByUsername(username);
+        if (member == null){
+            return new ModelAndView("404.html");
+        }
         Pageable pageRequest = PaginationHelper.getPageRequest(page);
         Page<Honk> honks = honkService.getMemberHonks(member, search, pageRequest);
 
