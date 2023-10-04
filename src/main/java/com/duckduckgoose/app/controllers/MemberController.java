@@ -34,6 +34,7 @@ public class MemberController {
         this.honkService = honkService;
     }
 
+
     @RequestMapping(value = "/members", method = RequestMethod.GET)
     public ModelAndView getMembersPage(
             @RequestParam(value = "search", required = false) String search,
@@ -72,6 +73,7 @@ public class MemberController {
         return new ModelAndView("member", "model", memberViewModel);
     }
 
+
     @RequestMapping(value = "/member/{username}/follow", method = RequestMethod.POST)
     public ModelAndView followMember(@PathVariable String username) {
         Member followerMember = AuthHelper.getAuthenticatedMember();
@@ -87,4 +89,20 @@ public class MemberController {
         memberService.removeFollower(followerMember, followedMember);
         return new ModelAndView("redirect:/member/" + username);
     }
+
+    @RequestMapping(value = "/members", method = RequestMethod.GET)
+    public ModelAndView getMembersPage(
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "filter", required = false) String filter,
+            @RequestParam (value = "page", required = false) Integer page
+    ) {
+        Page<Member> members;
+        Pageable pageRequest = PaginationHelper.getPageRequest(page);
+        members = memberService.getMembers(search, pageRequest);
+
+
+        MembersViewModel membersViewModel = new MembersViewModel(members, search, filter);
+        return new ModelAndView("members", "model", membersViewModel);
+    }
+
 }

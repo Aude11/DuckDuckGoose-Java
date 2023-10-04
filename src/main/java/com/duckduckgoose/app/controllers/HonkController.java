@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -28,6 +29,7 @@ public class HonkController {
     public HonkController(HonkService honkService) {
         this.honkService = honkService;
     }
+
 
     @RequestMapping(value = "/honks", method = RequestMethod.GET)
     public ModelAndView getHonksPage(
@@ -53,6 +55,7 @@ public class HonkController {
         return new ModelAndView("honks", "model", honksViewModel);
     }
 
+
     @RequestMapping(value = "/honk", method = RequestMethod.GET)
     public ModelAndView getHonkCreationPage() {
         return new ModelAndView("honk", "honkRequest", new HonkRequest());
@@ -73,5 +76,19 @@ public class HonkController {
         return new ModelAndView("redirect:/honks");
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/honks", method = RequestMethod.GET)
+    public ModelAndView getHonksPage(
+            @RequestParam (value = "search", required = false) String search,
+            @RequestParam (value = "filter", required = false) String filter,
+            @RequestParam (value = "page", required = false) Integer page
+    ) {
+        Page<Honk> honks;
+        Pageable pageRequest = PaginationHelper.getPageRequest(page);
+        honks = honkService.getHonks(search, pageRequest);
+
+        HonksViewModel honksViewModel = new HonksViewModel(honks, search, filter);
+        return new ModelAndView("honks", "model", honksViewModel);
+    }
 
 }

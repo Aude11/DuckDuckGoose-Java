@@ -25,6 +25,27 @@ public class HonkService {
         this.honkRepository = honkRepository;
         this.memberRepository = memberRepository;
     }
+  
+    public void createHonk(Member author, HonkRequest request) throws ValidationException {
+        Honk hook = new Honk(author, request.getContent());
+        honkRepository.save(hook);
+    }
+
+    public Page<Honk> getMemberHonks(Member author, String search, Pageable pageable) {
+        if (search == null || search.isBlank()) {
+            return honkRepository.findByAuthorOrderByTimestampDesc(author, pageable);
+        } else {
+            return honkRepository.findByContentContainingAndAuthorOrderByTimestampDesc(search, author, pageable);
+        }
+    }
+
+    public Page<Honk> getHonks(String search, Pageable pageable) {
+        if (search == null || search.isBlank()) {
+            return honkRepository.findAllByOrderByTimestampDesc(pageable);
+        } else {
+            return honkRepository.findByContentContainingOrderByTimestampDesc(search, pageable);
+        }
+    }
 
     public Page<Honk> getHonks(String search, Pageable pageable) {
         if (search == null || search.isBlank()) {

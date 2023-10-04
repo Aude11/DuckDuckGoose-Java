@@ -48,6 +48,8 @@
                    th:href="@{/members(__(${#strings.isEmpty(model.getFilter())} ? '' : ('filter=' + ${model.getFilter()}))__,
                                        page=${pageNumber},
                                        __(${#strings.isEmpty(model.getSearch())} ? '' : ('search=' + ${model.getSearch()}))__)}"></a>
+                                         page=${pageNumber},
+                                         __(${#strings.isEmpty(model.getSearch())} ? '' : ('search=' + ${model.getSearch()}))__)}"></a>
                 <span class="page-link" th:if="${pageNumber == null}">&ctdot;</span>
               </li>
             </ul>
