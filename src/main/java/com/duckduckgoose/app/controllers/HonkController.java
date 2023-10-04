@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -48,7 +49,8 @@ public class HonkController {
         honkService.createHonk(author, honkRequest);
         redirectAttributes.addFlashAttribute("flashMessage", "Honk posted successfully.");
         return new ModelAndView("redirect:/honks");
-      
+    }
+    @ResponseBody
     @RequestMapping(value = "/honks", method = RequestMethod.GET)
     public ModelAndView getHonksPage(
             @RequestParam (value = "search", required = false) String search,
