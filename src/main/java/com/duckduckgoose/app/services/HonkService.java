@@ -27,7 +27,8 @@ public class HonkService {
     }
 
     public void createHonk(Member author, HonkRequest request) throws ValidationException {
-        Honk honk = new Honk(author, request.getContent());
+        Honk hook = new Honk(author, request.getContent());
+        honkRepository.save(hook);
     }
 
 }
