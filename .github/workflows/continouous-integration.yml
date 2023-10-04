@@ -8,7 +8,7 @@ on:
       - main
 jobs:
   test:
-    runs-on: ubuntu-lastes
+    runs-on: ubuntu-lastest
     steps:
     - name: check out code
       uses: action/checkout@v4
