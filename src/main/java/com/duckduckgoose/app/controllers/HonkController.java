@@ -77,7 +77,7 @@ public class HonkController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/honks", method = RequestMethod.GET)
+    @RequestMapping(value = "/honks", method = RequestMethod.POST)
     public ModelAndView getHonksPage(
             @RequestParam (value = "search", required = false) String search,
             @RequestParam (value = "filter", required = false) String filter,
