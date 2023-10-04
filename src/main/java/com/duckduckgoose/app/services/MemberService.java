@@ -37,10 +37,6 @@ public class MemberService {
         }
     }
 
-    public Member getMemberByUsername(String username) {
-        return memberRepository.findByUsername(username);
-    }
-
     public void addFollower(Member followerMember, Member followedMember) {
         followerMember.getFollowedMembers().add(followedMember);
         memberRepository.save(followerMember);

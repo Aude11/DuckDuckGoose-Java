@@ -47,21 +47,6 @@ public class HonkService {
         }
     }
 
-    public Page<Honk> getHonks(String search, Pageable pageable) {
-        if (search == null || search.isBlank()) {
-            return honkRepository.findAllByOrderByTimestampDesc(pageable);
-        } else {
-            return honkRepository.findByContentContainingOrderByTimestampDesc(search, pageable);
-        }
-    }
-
-    public Page<Honk> getMemberHonks(Member author, String search, Pageable pageable) {
-        if (search == null || search.isBlank()) {
-            return honkRepository.findByAuthorOrderByTimestampDesc(author, pageable);
-        } else {
-            return honkRepository.findByContentContainingAndAuthorOrderByTimestampDesc(search, author, pageable);
-        }
-    }
 
     public Page<Honk> getFollowedMemberHonks(Member followerMember, String search, Pageable pageable) {
         Set<Member> followedMembers = memberRepository.findByFollowerMembersContaining(followerMember);
@@ -70,10 +55,6 @@ public class HonkService {
         } else {
             return honkRepository.findByContentContainingAndAuthorInOrderByTimestampDesc(search, followedMembers, pageable);
         }
-    }
-    
-    public void createHonk(Member author, HonkRequest request) throws ValidationException {
-        Honk honk = new Honk(author, request.getContent());
     }
 
 
